@@ -11,7 +11,7 @@ class HomeScreen extends StatelessWidget {
     return MaterialApp(
       title: 'Cricket',
       home: BlocProvider(
-        create: (context) => UserBloc(repository: UserRepositoryImpl()),
+        create: (context) => UserBloc(repository: UserRepo()),
         child: HomePage(),
       ),
     );

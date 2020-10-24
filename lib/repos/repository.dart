@@ -8,7 +8,7 @@ abstract class UserRepository {
   Future<List<Data>> getUsers();
 }
 
-class UserRepositoryImpl implements UserRepository {
+class UserRepo implements UserRepository {
 
   @override
   Future<List<Data>> getUsers() async {
