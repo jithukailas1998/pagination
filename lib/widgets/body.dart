@@ -74,9 +74,9 @@ class _HomePageState extends State<HomePage> {
                       } else if (state is UserLoadingState) {
                         return ShimmerLoader();
                       } else if (state is UserLoadedState) {
-                        return buildArticleList(state.data);
+                        return buildUserList(state.data);
                       } else if (state is UserErrorState) {
-                        return buildErrorUi(state.message);
+                        return buildErrorUi();
                       }
                       return Container();
                     },
@@ -90,23 +90,22 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-
-  Widget buildErrorUi(String message) {
+  Widget buildErrorUi() {
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: RaisedButton(
-                          color: Colors.red,
-                          onPressed: () {
-                            userBloc.add(FetchUserEvent());
-                          },
-                          child: Text('Retry'),
-                        ),
+          color: Colors.red,
+          onPressed: () {
+            userBloc.add(FetchUserEvent());
+          },
+          child: Text('Retry'),
+        ),
       ),
     );
   }
 
-  Widget buildArticleList(List<Data> data) {
+  Widget buildUserList(List<Data> data) {
     return ListView.builder(
       itemCount: data.length,
       itemBuilder: (ctx, pos) {
@@ -114,9 +113,17 @@ class _HomePageState extends State<HomePage> {
           padding: const EdgeInsets.all(8.0),
           child: InkWell(
             child: ListTile(
-              leading: Text("{data[pos].id}"),
-              title: Text(data[pos].email),
-              subtitle: Text(""),
+              leading: Image.network(
+                data[pos].avatar,
+              ),
+              title: Row(
+                children: [
+                  Text(data[pos].firstName),
+                  SizedBox(width: 10),
+                  Text(data[pos].lastName),
+                ],
+              ),
+              subtitle: Text(data[pos].email),
             ),
             onTap: () {
               //navigateToArticleDetailPage(context, data[pos]);

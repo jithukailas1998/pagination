@@ -5,6 +5,6 @@ import 'package:pagination/observer.dart';
 
 void main() {
   //
-  Bloc.observer = BeerBlocObserver();
+  Bloc.observer = UserBlocObserver();
   runApp(MyApp());
 }
