@@ -1,66 +1,129 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pagination/bloc/user_bloc.dart';
+import 'package:pagination/bloc/user_event.dart';
 import 'package:pagination/bloc/user_state.dart';
 import 'package:pagination/models/model.dart';
 import 'package:pagination/widgets/loader.dart';
+import 'package:pagination/widgets/login.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class UserBody extends StatefulWidget {
+class HomePage extends StatefulWidget {
   @override
-  _UserBodyState createState() => _UserBodyState();
+  _HomePageState createState() => _HomePageState();
 }
 
-class _UserBodyState extends State<UserBody> {
-  final List<User> _users = [];
+class _HomePageState extends State<HomePage> {
+  UserBloc userBloc;
 
-  final ScrollController _scrollController = ScrollController();
-  var one;
-  // UserBloc userBloc;
-
-  // @override
-  // void initState() {
-  //   userBloc = BlocProvider.of(context);
-  //   userBloc.add(UserFetchEvent());
-  //   super.initState();
-  // }
+  @override
+  void initState() {
+    super.initState();
+    userBloc = BlocProvider.of<UserBloc>(context);
+    userBloc.add(FetchUserEvent());
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: BlocConsumer<UserBloc, UserState>(
-        listener: (context, userState) {},
-        builder: (context, userState) {
-          if (userState is UserInitialState) {
-            return ShimmerLoader();
-          } else if (userState is UserLoadingState && _users.isEmpty) {
-            return CircularProgressIndicator();
-          } else if (userState is UserSuccessState) {
-            print(userState.users);
-            one = userState.users;
-            return Text(one ?? 'noo data');
-          } else if (userState is UserErrorState && _users.isEmpty) {
-            return CircularProgressIndicator();
-          }
-          return Text(one ?? 'no data');
-
-          // ListView.separated(
-          //   controller: _scrollController
-          //     ..addListener(() {
-          //       if (_scrollController.offset ==
-          //               _scrollController.position.maxScrollExtent &&
-          //           !context.bloc<UserBloc>().isFetching) {
-          //         print("caling again 2");
-          //         context.bloc<UserBloc>()
-          //           ..isFetching = true
-          //           ..add(UserFetchEvent());
-          //       }
-          //     }),
-          //   itemBuilder: (context, index) => UserItems(_users[index]),
-          //   separatorBuilder: (context, index) => const SizedBox(height: 5),
-          //   itemCount: _users.length,
-          // );
+    return MaterialApp(
+      home: Builder(
+        builder: (context) {
+          return Material(
+            child: Scaffold(
+              appBar: AppBar(
+                title: Text("Users"),
+                centerTitle: true,
+                backgroundColor: Colors.red,
+                actions: <Widget>[
+                  IconButton(
+                    icon: Icon(Icons.refresh),
+                    onPressed: () {
+                      userBloc.add(FetchUserEvent());
+                    },
+                  ),
+                  new IconButton(
+                    icon: Icon(
+                      Icons.lock,
+                      color: Colors.white,
+                    ),
+                    onPressed: () async {
+                      SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
+                      prefs.remove('value');
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => LoginScreen()));
+                    },
+                  ),
+                ],
+              ),
+              body: Container(
+                child: BlocListener<UserBloc, UserState>(
+                  listener: (context, state) {
+                    if (state is UserErrorState) {
+                      Scaffold.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(state.message),
+                        ),
+                      );
+                    }
+                  },
+                  child: BlocBuilder<UserBloc, UserState>(
+                    builder: (context, state) {
+                      if (state is UserInitialState) {
+                        return ShimmerLoader();
+                      } else if (state is UserLoadingState) {
+                        return ShimmerLoader();
+                      } else if (state is UserLoadedState) {
+                        return buildArticleList(state.data);
+                      } else if (state is UserErrorState) {
+                        return buildErrorUi(state.message);
+                      }
+                      return Container();
+                    },
+                  ),
+                ),
+              ),
+            ),
+          );
         },
       ),
+    );
+  }
+
+
+  Widget buildErrorUi(String message) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: RaisedButton(
+                          color: Colors.red,
+                          onPressed: () {
+                            userBloc.add(FetchUserEvent());
+                          },
+                          child: Text('Retry'),
+                        ),
+      ),
+    );
+  }
+
+  Widget buildArticleList(List<Data> data) {
+    return ListView.builder(
+      itemCount: data.length,
+      itemBuilder: (ctx, pos) {
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: InkWell(
+            child: ListTile(
+              leading: Text("{data[pos].id}"),
+              title: Text(data[pos].email),
+              subtitle: Text(""),
+            ),
+            onTap: () {
+              //navigateToArticleDetailPage(context, data[pos]);
+            },
+          ),
+        );
+      },
     );
   }
 }

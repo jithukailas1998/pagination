@@ -59,21 +59,21 @@ class _LoginScreenState extends State<LoginScreen> {
                           },
                           child: Text('Sign in'),
                         ),
-                        RaisedButton(
-                          color: Colors.green,
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              AwesomePageRoute(
-                                transitionDuration: Duration(milliseconds: 600),
-                                exitPage: widget,
-                                enterPage: HomeScreen(),
-                                transition: CubeTransition(),
-                              ),
-                            );
-                          },
-                          child: Text('go to home'),
-                        ),
+                        // RaisedButton(
+                        //   color: Colors.green,
+                        //   onPressed: () {
+                        //     Navigator.push(
+                        //       context,
+                        //       AwesomePageRoute(
+                        //         transitionDuration: Duration(milliseconds: 600),
+                        //         exitPage: widget,
+                        //         enterPage: HomeScreen(),
+                        //         transition: CubeTransition(),
+                        //       ),
+                        //     );
+                        //   },
+                        //   child: Text('go to home'),
+                        // ),
                       ],
                     ))
               ],

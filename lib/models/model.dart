@@ -1,101 +1,95 @@
-// To parse this JSON data, do
-//
-//     final user = userFromJson(jsonString);
-
-import 'dart:convert';
-
-User userFromJson(String str) => User.fromJson(json.decode(str));
-
-String userToJson(User data) => json.encode(data.toJson());
-
 class User {
-    User({
-        this.page,
-        this.perPage,
-        this.total,
-        this.totalPages,
-        this.data,
-        this.ad,
-    });
+  int page;
+  int perPage;
+  int total;
+  int totalPages;
+  List<Data> data;
+  Ad ad;
 
-    int page;
-    int perPage;
-    int total;
-    int totalPages;
-    List<Datum> data;
-    Ad ad;
+  User(
+      {this.page,
+      this.perPage,
+      this.total,
+      this.totalPages,
+      this.data,
+      this.ad});
 
-    factory User.fromJson(Map<String, dynamic> json) => User(
-        page: json["page"],
-        perPage: json["per_page"],
-        total: json["total"],
-        totalPages: json["total_pages"],
-        data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
-        ad: Ad.fromJson(json["ad"]),
-    );
+  User.fromJson(Map<String, dynamic> json) {
+    page = json['page'];
+    perPage = json['per_page'];
+    total = json['total'];
+    totalPages = json['total_pages'];
+    if (json['data'] != null) {
+      data = new List<Data>();
+      json['data'].forEach((v) {
+        data.add(new Data.fromJson(v));
+      });
+    }
+    ad = json['ad'] != null ? new Ad.fromJson(json['ad']) : null;
+  }
 
-    Map<String, dynamic> toJson() => {
-        "page": page,
-        "per_page": perPage,
-        "total": total,
-        "total_pages": totalPages,
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
-        "ad": ad.toJson(),
-    };
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['page'] = this.page;
+    data['per_page'] = this.perPage;
+    data['total'] = this.total;
+    data['total_pages'] = this.totalPages;
+    if (this.data != null) {
+      data['data'] = this.data.map((v) => v.toJson()).toList();
+    }
+    if (this.ad != null) {
+      data['ad'] = this.ad.toJson();
+    }
+    return data;
+  }
+}
+
+class Data {
+  int id;
+  String email;
+  String firstName;
+  String lastName;
+  String avatar;
+
+  Data({this.id, this.email, this.firstName, this.lastName, this.avatar});
+
+  Data.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    email = json['email'];
+    firstName = json['first_name'];
+    lastName = json['last_name'];
+    avatar = json['avatar'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['email'] = this.email;
+    data['first_name'] = this.firstName;
+    data['last_name'] = this.lastName;
+    data['avatar'] = this.avatar;
+    return data;
+  }
 }
 
 class Ad {
-    Ad({
-        this.company,
-        this.url,
-        this.text,
-    });
+  String company;
+  String url;
+  String text;
 
-    String company;
-    String url;
-    String text;
+  Ad({this.company, this.url, this.text});
 
-    factory Ad.fromJson(Map<String, dynamic> json) => Ad(
-        company: json["company"],
-        url: json["url"],
-        text: json["text"],
-    );
+  Ad.fromJson(Map<String, dynamic> json) {
+    company = json['company'];
+    url = json['url'];
+    text = json['text'];
+  }
 
-    Map<String, dynamic> toJson() => {
-        "company": company,
-        "url": url,
-        "text": text,
-    };
-}
-
-class Datum {
-    Datum({
-        this.id,
-        this.email,
-        this.firstName,
-        this.lastName,
-        this.avatar,
-    });
-
-    int id;
-    String email;
-    String firstName;
-    String lastName;
-    String avatar;
-
-    factory Datum.fromJson(Map<String, dynamic> json) => Datum(
-        id: json["id"],
-        email: json["email"],
-        firstName: json["first_name"],
-        lastName: json["last_name"],
-        avatar: json["avatar"],
-    );
-
-    Map<String, dynamic> toJson() => {
-        "id": id,
-        "email": email,
-        "first_name": firstName,
-        "last_name": lastName,
-        "avatar": avatar,
-    };
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['company'] = this.company;
+    data['url'] = this.url;
+    data['text'] = this.text;
+    return data;
+  }
 }

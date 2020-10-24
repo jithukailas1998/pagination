@@ -22,3 +22,4 @@ Future<bool> loginData(String email, String pass) async {
   }
   return false;
 }
+

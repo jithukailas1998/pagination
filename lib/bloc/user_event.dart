@@ -1,14 +1,9 @@
-abstract class UserEvent {
-  const UserEvent();
-}
+import 'package:equatable/equatable.dart';
 
-class UserFetchEvent extends UserEvent {
-  const UserFetchEvent();
+abstract class UserEvent extends Equatable{}
 
+class FetchUserEvent extends UserEvent {
   @override
-  String toString() {
-    // TODO: implement toString
-    print("called userfetch event");
-    return super.toString();
-  }
+  // TODO: implement props
+  List<Object> get props => null;
 }
