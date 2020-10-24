@@ -8,12 +8,10 @@ import 'package:pagination/widgets/body.dart';
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Cricket',
-      home: BlocProvider(
+    return BlocProvider(
         create: (context) => UserBloc(repository: UserRepo()),
         child: HomePage(),
-      ),
+      
     );
   }
 }

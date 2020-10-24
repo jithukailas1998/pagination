@@ -26,8 +26,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Builder(
+    return Builder(
         builder: (context) {
           return Material(
             child: Scaffold(
@@ -76,7 +75,6 @@ class _HomePageState extends State<HomePage> {
             ),
           );
         },
-      ),
     );
   }
 
