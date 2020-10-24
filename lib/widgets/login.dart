@@ -1,9 +1,7 @@
-import 'package:awesome_page_transitions/awesome_page_transitions.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:pagination/services/api.dart';
 import 'package:pagination/widgets/home.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -16,14 +14,13 @@ class _LoginScreenState extends State<LoginScreen> {
 
   String email;
   String password;
-  int _loginValue;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("Login"),
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.red,
         centerTitle: true,
       ),
       body: SingleChildScrollView(

@@ -4,6 +4,7 @@ import 'package:pagination/bloc/user_bloc.dart';
 import 'package:pagination/bloc/user_event.dart';
 import 'package:pagination/bloc/user_state.dart';
 import 'package:pagination/models/model.dart';
+import 'package:pagination/widgets/error.dart';
 import 'package:pagination/widgets/loader.dart';
 import 'package:pagination/widgets/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -35,12 +36,7 @@ class _HomePageState extends State<HomePage> {
                 centerTitle: true,
                 backgroundColor: Colors.red,
                 actions: <Widget>[
-                  IconButton(
-                    icon: Icon(Icons.refresh),
-                    onPressed: () {
-                      userBloc.add(FetchUserEvent());
-                    },
-                  ),
+                  
                   new IconButton(
                     icon: Icon(
                       Icons.lock,
@@ -59,13 +55,7 @@ class _HomePageState extends State<HomePage> {
               body: Container(
                 child: BlocListener<UserBloc, UserState>(
                   listener: (context, state) {
-                    if (state is UserErrorState) {
-                      Scaffold.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(state.message),
-                        ),
-                      );
-                    }
+                    
                   },
                   child: BlocBuilder<UserBloc, UserState>(
                     builder: (context, state) {
@@ -76,7 +66,7 @@ class _HomePageState extends State<HomePage> {
                       } else if (state is UserLoadedState) {
                         return buildUserList(state.data);
                       } else if (state is UserErrorState) {
-                        return buildErrorUi();
+                        return ErrorState();
                       }
                       return Container();
                     },
@@ -90,20 +80,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget buildErrorUi() {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: RaisedButton(
-          color: Colors.red,
-          onPressed: () {
-            userBloc.add(FetchUserEvent());
-          },
-          child: Text('Retry'),
-        ),
-      ),
-    );
-  }
 
   Widget buildUserList(List<Data> data) {
     return ListView.builder(

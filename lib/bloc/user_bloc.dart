@@ -11,8 +11,6 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
   UserBloc({@required this.repository}) : super(null) ;
 
-  @override
-  // TODO: implement initialState
   UserState get initialState => UserInitialState();
 
   @override

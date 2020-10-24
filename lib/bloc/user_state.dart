@@ -6,16 +6,15 @@ abstract class UserState extends Equatable {}
 
 class UserInitialState extends UserState {
   @override
-  // TODO: implement props
   List<Object> get props => [];
 }
 
 class UserLoadingState extends UserState {
   @override
-  // TODO: implement props
   List<Object> get props => [];
 }
 
+// ignore: must_be_immutable
 class UserLoadedState extends UserState {
 
   List<Data> data;
@@ -23,10 +22,10 @@ class UserLoadedState extends UserState {
   UserLoadedState({@required this.data});
 
   @override
-  // TODO: implement props
   List<Object> get props => [data];
 }
 
+// ignore: must_be_immutable
 class UserErrorState extends UserState {
 
   String message;
@@ -34,6 +33,5 @@ class UserErrorState extends UserState {
   UserErrorState({@required this.message});
 
   @override
-  // TODO: implement props
   List<Object> get props => [message];
 }
