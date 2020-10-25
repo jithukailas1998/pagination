@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pagination/bloc/user_bloc.dart';
-import 'package:pagination/bloc/user_event.dart';
-
+import 'package:pagination/bloc/list_bloc/user_bloc.dart';
+import 'package:pagination/bloc/list_bloc/user_event.dart';
 
 class ErrorState extends StatefulWidget {
   @override
@@ -18,10 +17,11 @@ class _ErrorStateState extends State<ErrorState> {
     userBloc = BlocProvider.of<UserBloc>(context);
     userBloc.add(FetchUserEvent());
   }
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Center(
+        child: Center(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: RaisedButton(
@@ -32,7 +32,6 @@ class _ErrorStateState extends State<ErrorState> {
           child: Text('Retry'),
         ),
       ),
-    )
-    );
+    ));
   }
 }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pagination/bloc/user_bloc.dart';
-import 'package:pagination/bloc/user_event.dart';
-import 'package:pagination/bloc/user_state.dart';
+import 'package:pagination/bloc/list_bloc/user_bloc.dart';
+import 'package:pagination/bloc/list_bloc/user_event.dart';
+import 'package:pagination/bloc/list_bloc/user_state.dart';
 import 'package:pagination/models/model.dart';
 import 'package:pagination/widgets/error.dart';
 import 'package:pagination/widgets/loader.dart';
@@ -27,57 +27,53 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Builder(
-        builder: (context) {
-          return Material(
-            child: Scaffold(
-              appBar: AppBar(
-                title: Text("Users"),
-                centerTitle: true,
-                backgroundColor: Colors.red,
-                actions: <Widget>[
-                  
-                  new IconButton(
-                    icon: Icon(
-                      Icons.lock,
-                      color: Colors.white,
-                    ),
-                    onPressed: () async {
-                      SharedPreferences prefs =
-                          await SharedPreferences.getInstance();
-                      prefs.remove('value');
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(
-                          builder: (context) => LoginScreen()));
-                    },
+      builder: (context) {
+        return Material(
+          child: Scaffold(
+            appBar: AppBar(
+              title: Text("Users"),
+              centerTitle: true,
+              backgroundColor: Colors.red,
+              actions: <Widget>[
+                new IconButton(
+                  icon: Icon(
+                    Icons.lock,
+                    color: Colors.white,
                   ),
-                ],
-              ),
-              body: Container(
-                child: BlocListener<UserBloc, UserState>(
-                  listener: (context, state) {
-                    
+                  onPressed: () async {
+                    SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+                    prefs.remove('value');
+                    Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(builder: (context) => LoginScreen()));
                   },
-                  child: BlocBuilder<UserBloc, UserState>(
-                    builder: (context, state) {
-                      if (state is UserInitialState) {
-                        return ShimmerLoader();
-                      } else if (state is UserLoadingState) {
-                        return ShimmerLoader();
-                      } else if (state is UserLoadedState) {
-                        return buildUserList(state.data);
-                      } else if (state is UserErrorState) {
-                        return ErrorState();
-                      }
-                      return Container();
-                    },
-                  ),
+                ),
+              ],
+            ),
+            body: Container(
+              child: BlocListener<UserBloc, UserState>(
+                listener: (context, state) {},
+                child: BlocBuilder<UserBloc, UserState>(
+                  builder: (context, state) {
+                    if (state is UserInitialState) {
+                      return ShimmerLoader();
+                    } else if (state is UserLoadingState) {
+                      return ShimmerLoader();
+                    } else if (state is UserLoadedState) {
+                      return buildUserList(state.data);
+                    } else if (state is UserErrorState) {
+                      return ErrorState();
+                    }
+                    return Container();
+                  },
                 ),
               ),
             ),
-          );
-        },
+          ),
+        );
+      },
     );
   }
-
 
   Widget buildUserList(List<Data> data) {
     return ListView.builder(

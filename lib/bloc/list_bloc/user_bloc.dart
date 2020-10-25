@@ -1,15 +1,14 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:pagination/bloc/user_event.dart';
-import 'package:pagination/bloc/user_state.dart';
+import 'package:pagination/bloc/list_bloc/user_event.dart';
+import 'package:pagination/bloc/list_bloc/user_state.dart';
 import 'package:pagination/models/model.dart';
 import 'package:pagination/repos/repository.dart';
 
 class UserBloc extends Bloc<UserEvent, UserState> {
-
   UserRepository repository;
 
-  UserBloc({@required this.repository}) : super(null) ;
+  UserBloc({@required this.repository}) : super(null);
 
   UserState get initialState => UserInitialState();
 
@@ -25,5 +24,4 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       }
     }
   }
-
 }
