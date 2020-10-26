@@ -44,15 +44,16 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         TextFormField(
                           decoration: InputDecoration(labelText: 'Password'),
-                          validator: (val) =>
-                              val.length == null ? 'Password too short..' : null,
+                          validator: (val) => val.length == null
+                              ? 'Password too short..'
+                              : null,
                           onSaved: (val) => password = val,
                           obscureText: true,
                         ),
                         RaisedButton(
                           color: Colors.green,
                           onPressed: () {
-                            _submit(0);
+                            _submit();
                           },
                           child: Text('Sign in'),
                         ),
@@ -79,22 +80,20 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  void _submit(int x) async {
+  void _submit() async {
     final form = formKey.currentState;
     if (form.validate()) {
       //SharedPreferences prefs = await SharedPreferences.getInstance();
       form.save();
-          var r = await loginData(email, password);
-          print("R = $r");
+      var r = await loginData(email, password);
+      print("R = $r");
 
-          if(r == true){
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => HomeScreen ()),
-              );
-
-          }
+      if (r == true) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => HomeScreen()),
+        );
+      }
     }
   }
-
 }
