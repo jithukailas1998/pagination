@@ -15,7 +15,6 @@ class _ErrorStateState extends State<ErrorState> {
   void initState() {
     super.initState();
     userBloc = BlocProvider.of<UserBloc>(context);
-    userBloc.add(FetchUserEvent());
   }
 
   @override
