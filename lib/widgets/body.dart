@@ -53,10 +53,10 @@ class _HomePageState extends State<HomePage> {
             body: Container(
               child: BlocBuilder<UserBloc, UserState>(
                 builder: (context, state) {
-                  if (state is UserInitialState && state is UserLoadingState) {
+                  if (state is UserInitialState) {
                     return ShimmerLoader();
-                    // } else if (state is UserLoadingState) {
-                    //   return ShimmerLoader();
+                  } else if (state is UserLoadingState) {
+                    return ShimmerLoader();
                   } else if (state is UserLoadedState) {
                     return buildUserList(state.data);
                   } else if (state is UserErrorState) {

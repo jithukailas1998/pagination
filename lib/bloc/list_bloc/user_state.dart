@@ -16,7 +16,6 @@ class UserLoadingState extends UserState {
 
 // ignore: must_be_immutable
 class UserLoadedState extends UserState {
-
   List<Data> data;
 
   UserLoadedState({@required this.data});
@@ -27,7 +26,6 @@ class UserLoadedState extends UserState {
 
 // ignore: must_be_immutable
 class UserErrorState extends UserState {
-
   String message;
 
   UserErrorState({@required this.message});
