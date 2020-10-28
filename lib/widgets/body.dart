@@ -51,22 +51,19 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
             body: Container(
-              child: BlocListener<UserBloc, UserState>(
-                listener: (context, state) {},
-                child: BlocBuilder<UserBloc, UserState>(
-                  builder: (context, state) {
-                    if (state is UserInitialState) {
-                      return ShimmerLoader();
-                    } else if (state is UserLoadingState) {
-                      return ShimmerLoader();
-                    } else if (state is UserLoadedState) {
-                      return buildUserList(state.data);
-                    } else if (state is UserErrorState) {
-                      return ErrorState();
-                    }
-                    return Container();
-                  },
-                ),
+              child: BlocBuilder<UserBloc, UserState>(
+                builder: (context, state) {
+                  if (state is UserInitialState && state is UserLoadingState) {
+                    return ShimmerLoader();
+                    // } else if (state is UserLoadingState) {
+                    //   return ShimmerLoader();
+                  } else if (state is UserLoadedState) {
+                    return buildUserList(state.data);
+                  } else if (state is UserErrorState) {
+                    return ErrorState();
+                  }
+                  return Container();
+                },
               ),
             ),
           ),
@@ -81,23 +78,18 @@ class _HomePageState extends State<HomePage> {
       itemBuilder: (ctx, pos) {
         return Padding(
           padding: const EdgeInsets.all(8.0),
-          child: InkWell(
-            child: ListTile(
-              leading: Image.network(
-                data[pos].avatar,
-              ),
-              title: Row(
-                children: [
-                  Text(data[pos].firstName),
-                  SizedBox(width: 10),
-                  Text(data[pos].lastName),
-                ],
-              ),
-              subtitle: Text(data[pos].email),
+          child: ListTile(
+            leading: Image.network(
+              data[pos].avatar,
             ),
-            onTap: () {
-              //navigateToArticleDetailPage(context, data[pos]);
-            },
+            title: Row(
+              children: [
+                Text(data[pos].firstName),
+                SizedBox(width: 10),
+                Text(data[pos].lastName),
+              ],
+            ),
+            subtitle: Text(data[pos].email),
           ),
         );
       },
